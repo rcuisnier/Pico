@@ -4,6 +4,7 @@
  * Pico
  *
  * Pico is a stupidly simple, blazing fast, flat file CMS.
+ *
  * - Stupidly Simple: Pico makes creating and maintaining a
  *   website as simple as editing text files.
  * - Blazing Fast: Pico is seriously lightweight and doesn't
@@ -16,12 +17,13 @@
  *   for powerful and flexible themes.
  * - Open Source: Pico is completely free and open source,
  *   released under the MIT license.
+ *
  * See <http://picocms.org/> for more info.
  *
  * @author  Gilbert Pellegrom
  * @author  Daniel Rudolf
- * @link    <http://picocms.org>
- * @license The MIT License <http://opensource.org/licenses/MIT>
+ * @link    http://picocms.org
+ * @license http://opensource.org/licenses/MIT The MIT License
  * @version 1.0
  */
 class Pico
@@ -298,7 +300,8 @@ class Pico
         // load raw file content
         $this->triggerEvent('onContentLoading', array(&$this->requestFile));
 
-        if (file_exists($this->requestFile)) {
+        $notFoundFile = '404' . $this->getConfig('content_ext');
+        if (file_exists($this->requestFile) && (basename($this->requestFile) !== $notFoundFile)) {
             $this->rawContent = $this->loadFileContent($this->requestFile);
         } else {
             $this->triggerEvent('on404ContentLoading', array(&$this->requestFile));
@@ -759,7 +762,7 @@ class Pico
      * for users and pure (!) theme developers ONLY.
      *
      * @see    Pico::getFileMeta()
-     * @see    <http://symfony.com/doc/current/components/yaml/introduction.html>
+     * @see    http://symfony.com/doc/current/components/yaml/introduction.html
      * @param  string   $rawContent the raw file contents
      * @param  string[] $headers    known meta headers
      * @return array                parsed meta data
