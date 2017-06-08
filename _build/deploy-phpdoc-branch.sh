@@ -18,16 +18,18 @@ fi
 DEPLOYMENT_ID="${TRAVIS_BRANCH//\//_}"
 DEPLOYMENT_DIR="$TRAVIS_BUILD_DIR/_build/deploy-$DEPLOYMENT_ID.git"
 
+[ -n "$DEPLOY_REPO_SLUG" ] || export DEPLOY_REPO_SLUG="$TRAVIS_REPO_SLUG"
+[ -n "$DEPLOY_REPO_BRANCH" ] || export DEPLOY_REPO_BRANCH="gh-pages"
+
 # clone repo
-echo "Cloning repo..."
-git clone --branch="gh-pages" "https://github.com/$TRAVIS_REPO_SLUG.git" "$DEPLOYMENT_DIR"
+github-clone.sh "$DEPLOYMENT_DIR" "https://github.com/$DEPLOY_REPO_SLUG.git" "$DEPLOY_REPO_BRANCH"
 [ $? -eq 0 ] || exit 1
 
 cd "$DEPLOYMENT_DIR"
-echo
 
 # setup repo
 github-setup.sh
+[ $? -eq 0 ] || exit 1
 
 # generate phpDocs
 generate-phpdoc.sh \
@@ -41,6 +43,7 @@ generate-phpdoc.sh \
 update-phpdoc-list.sh \
     "$DEPLOYMENT_DIR/_data/phpDoc.yml" \
     "$TRAVIS_BRANCH" "branch" "<code>$TRAVIS_BRANCH</code> branch" "$(date +%s)"
+[ $? -eq 0 ] || exit 1
 
 # commit phpDocs
 echo "Committing changes..."

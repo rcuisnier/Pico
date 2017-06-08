@@ -49,7 +49,7 @@ With this command you can specify a file or folder to limit which files it will 
 
 Pico accepts the problems of having redundant documentation on different places (concretely Pico's inline user docs, the `README.md` and the website) for the sake of a better user experience. When updating the docs, please make sure to keep them in sync.
 
-If you update the [`README.md`](https://github.com/picocms/Pico/blob/master/README.md) or [`content-sample/index.md`](https://github.com/picocms/Pico/blob/master/content-sample/index.md), please make sure to update the corresponding files in the [`_docs`](https://github.com/picocms/Pico/tree/gh-pages/_docs/) folder of the `gh-pages` branch (i.e. [Pico's website](http://picocms.org/docs/)) and vice versa. Unfortunately this involves three (!) different markdown parsers. If you're experiencing problems, use Pico's [`erusev/parsedown-extra`](https://github.com/erusev/parsedown-extra) as a reference. You can try to make the contents compatible to [Kramdown](http://kramdown.gettalong.org/) (Pico's website) and [Redcarpet](https://github.com/vmg/redcarpet) (`README.md`) by yourself, otherwise please address the issues in your pull request message and we'll take care of it.
+If you update the [`README.md`](https://github.com/picocms/Pico/blob/master/README.md) or [`content-sample/index.md`](https://github.com/picocms/Pico/blob/master/content-sample/index.md), please make sure to update the corresponding files in the [`_docs`](https://github.com/picocms/picocms.github.io/tree/master/_docs/) folder of the `picocms.github.io` repo (i.e. [Pico's website](http://picocms.org/docs/)) and vice versa. Unfortunately this involves three (!) different markdown parsers. If you're experiencing problems, use Pico's [`erusev/parsedown-extra`](https://github.com/erusev/parsedown-extra) as a reference. You can try to make the contents compatible to [Kramdown](http://kramdown.gettalong.org/) (Pico's website) and [Redcarpet](https://github.com/vmg/redcarpet) (`README.md`) by yourself, otherwise please address the issues in your pull request message and we'll take care of it.
 
 Versioning
 ----------
@@ -80,7 +80,7 @@ As soon as development reaches a point where feedback is appreciated, a pull req
 Build & Release process
 -----------------------
 
-We're using [Travis CI](https://travis-ci.com) to automate the build & release process of Pico. It generates and deploys [phpDoc](http://phpdoc.org) class docs for new releases and on every commit to the `master` branch. Travis also prepares new releases by generating Pico's pre-built packages, a version badge and pushing both to our website (the [`gh-pages` branch](https://github.com/picocms/Pico/tree/gh-pages)). Please refer to our [`.travis.yml`](https://github.com/picocms/Pico/blob/master/.travis.yml) and the [`_build` directory](https://github.com/picocms/Pico/tree/master/_build) for details.
+We're using [Travis CI](https://travis-ci.com) to automate the build & release process of Pico. It generates and deploys [phpDoc](http://phpdoc.org) class docs for new releases and on every commit to the `master` branch. Travis also prepares new releases by generating Pico's pre-built packages, a version badge and pushing both to our website (the [`picocms.github.io` repo](https://github.com/picocms/picocms.github.io)). Please refer to our [`.travis.yml`](https://github.com/picocms/Pico/blob/master/.travis.yml) and the [`_build` directory](https://github.com/picocms/Pico/tree/master/_build) for details.
 
 As insinuated above, it is important that each commit to `master` is deployable. Once development of a new Pico release is finished, trigger Pico's build & release process by pushing a new Git tag. This tag should reference a (usually empty) commit on `master`, which message should adhere to the following template:
 
@@ -95,3 +95,34 @@ Version 1.0.0
 ```
 
 Travis CI will draft the new [release on GitHub](https://github.com/picocms/Pico/releases) automatically, but will require you to manually amend the descriptions formatting. The latest Pico version is always available at https://github.com/picocms/Pico/releases/latest, so please make sure to publish this URL rather than version-specific URLs. [Packagist](http://packagist.org/packages/picocms/pico) will be updated automatically.
+
+Labeling of Issues & Pull Requests
+----------------------------------
+
+Pico makes use of GitHub's label and milestone features, to aide developers in quickly identifying and prioritizing which issues need to be worked on. The starting point for labeling issues and pull requests is the `type` label, which is explained in greater detail below. The `type` label might get combined with a `pri` label, describing the issue's priority, and a `status` label, describing the current status of the issue.
+
+Issues and pull requests labeled with `info: Feedback Needed` indicate that feedback from others is highly appreciated. We always appreciate feedback at any time and from anyone, but when this label is present, we explicitly *ask* you to give feedback. It would be great if you leave a comment!
+
+- The `type: Bug` label is assigned to issues or pull requests, which have been identified as bugs or security issues in Pico's core. It might get combined with the `pri: High` label, when the problem was identified as security issue, or as a so-called "show stopper" bug. In contrast, uncritical problems might get labeled with `pri: Low`. `type: Bug` issues and pull requests are usually labeled with one of the following `status` labels when being closed:
+  - `status: Resolved` is used when the issue has been resolved.
+  - `status: Conflict` indicates a conflict with another issue.
+  - `status: Won't Fix` means, that the problem was identified as intended behavior.
+  - `status: Rejected` is used when the issue was rejected for another reason (e.g. when the issue wasn't reproducible).
+
+- The `type: Enhancement` and `type: Feature` labels are used to tag pull requests, which introduce either a comparatively small enhancement, or a "big" new feature. As with the `type: Bug` label, they might get combined with the `pri: High` or `pri: Low` labels to indicate the pull request's priority. A pull request isn't necessarily mergeable when being opened, so it might get labeled with `status: Pending Merge` when development of the pull request is finished, but merging isn't intended yet. After merging or closing the pull request, it is labeled with one of the `status` labels as described above for the `type: Bug` label.
+
+- The `type: Idea` label is similar to the `type: Enhancement` and `type: Feature` labels, but is used for issues or incomplete and abandoned pull requests. It is otherwise used in the exact same way as `type: Enhancement` and `type: Feature`.
+
+- The `type: Release` label is used in the exact same way as `type: Feature` and indicates the primary pull request of a new Pico release (please refer to the *Branching* and *Build & Release process* sections above).
+
+- The `type: Notice`, `type: Question` and `type: Discussion` labels are used to indicate "fyi" issues, issues opened by users or developers asking questions, and issues with disucssions about arbitrary topics related to Pico. They are neither combined with `pri` labels, nor with `status` labels.
+
+- The `type: Duplicate` label is used when there is already another issue or pull request related to this problem or feature request. Issues labeled with `type: Duplicate` are immediately closed.
+
+- The `type: Invalid` label is used for everything else, e.g. issues or pull requests not related to Pico, or invalid bug reports.
+
+The `status: Deferred` label might get added to any open issue or pull request to indicate that it still open and will be resolved later.
+
+Issues and pull requests, which are rather related to upstream projects (i.e. projects Pico depends on, like Twig), are additionally labeled with `info: Upstream`.
+
+When a issue or pull request isn't directly related to Pico's core, but the project as a whole, it is labeled with `info: Meta`.  The same applies to the `info: Website` label, however, in this case it is usually expedient to move the issue to the [`picocms.github.io` repo](https://github.com/picocms/picocms.github.io) containing Pico's website.
